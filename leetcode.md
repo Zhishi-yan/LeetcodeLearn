@@ -32,6 +32,7 @@
    2. [BM95 分糖果问题 动态规划](#bm95)
    3. [BM96 主持人调度（二）](#bm96)
    4. [csv](#csv)
+   5. [全排列](#46)
 
 
 
@@ -1367,4 +1368,53 @@ public class Main {
 }
 
 
+```
+
+
+##### [46](https://leetcode.cn/problems/permutations/)
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+class Solution {
+
+    int[] used;
+    int maxDepth = 0;
+    List<Integer> temp = new ArrayList<>();
+    List<List<Integer>> ret = new ArrayList<>();
+
+    public List<List<Integer>> permute(int[] nums) {
+        used = new int[nums.length];
+        maxDepth = nums.length;
+        DFS(nums, 0);
+        return ret;
+    }
+
+    private void DFS(int[] nums, int depth) {
+        //如果当前的深度等于最大深度，则回溯
+        if (depth == maxDepth) {
+            ret.add(new ArrayList<>(temp));
+            return;
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (used[i] == 0) {
+                used[i] = 1;
+                temp.add(nums[i]);//把当前的数字添加的temp中
+                DFS(nums, depth + 1);
+                used[i] = 0;
+                temp.remove(temp.size() - 1);
+            }
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        //  测试用例   [1,2,3]
+        int[] nums = {1, 2, 3};
+        Solution solution = new Solution();
+        List<List<Integer>> ret = solution.permute(nums);
+        System.out.println(ret);
+    }
+}
 ```
